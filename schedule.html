@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html class="light" lang="ko">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>피우다 ABA | 스케줄/캘린더</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+<script>
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          primary: "#FF8E99",
+          secondary: "#8FAADC",
+          accent: "#FFD54F",
+          "background-light": "#F8FAFC",
+          "background-dark": "#0F172A",
+        },
+        fontFamily: { display: ["Pretendard", "sans-serif"] },
+      },
+    },
+  };
+</script>
+<style>
+  body { font-family: 'Pretendard', sans-serif; }
+  .sidebar-link {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 16px; border-radius: 12px;
+    color: #64748b; transition: all 0.15s;
+    text-decoration: none; font-weight: 500;
+  }
+  .sidebar-link:hover { background: #f8fafc; color: #334155; }
+  .sidebar-link.active { background: #FF8E99; color: #fff !important; }
+  .dark .sidebar-link:hover { background: #1e293b; color: #cbd5e1; }
+  .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+  .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); }
+  .calendar-cell { min-height: 130px; }
+</style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-100 min-h-screen flex overflow-hidden">
+
+<!-- ===== SIDEBAR ===== -->
+<aside class="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col fixed h-full z-50">
+  <div class="p-6">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 bg-primary/10 flex items-center justify-center rounded-xl">
+        <span class="material-icons-outlined text-primary">local_florist</span>
+      </div>
+      <h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">피우다 <span class="text-primary text-sm font-medium">ABA</span></h1>
+    </div>
+  </div>
+  <nav class="flex-1 px-4 space-y-1 overflow-y-auto custom-scrollbar">
+    <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider px-2 py-4">메뉴</div>
+    <a class="sidebar-link" href="index.html"><span class="material-icons-outlined">dashboard</span><span>대시보드</span></a>
+    <a class="sidebar-link" href="program.html"><span class="material-icons-outlined">assignment</span><span>프로그램 관리</span></a>
+    <a class="sidebar-link" href="members.html"><span class="material-icons-outlined">group</span><span>회원(아동) 관리</span></a>
+    <a class="sidebar-link" href="records.html"><span class="material-icons-outlined">description</span><span>치료 기록/차트</span></a>
+    <a class="sidebar-link active" href="schedule.html"><span class="material-icons-outlined">calendar_today</span><span>스케줄/캘린더</span></a>
+    <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider px-2 py-4 mt-4">설정</div>
+    <a class="sidebar-link" href="#"><span class="material-icons-outlined">settings</span><span>시스템 설정</span></a>
+    <a class="sidebar-link" href="#"><span class="material-icons-outlined">help_outline</span><span>고객지원</span></a>
+  </nav>
+  <div class="p-4 border-t border-slate-200 dark:border-slate-800">
+    <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl flex items-center gap-3">
+      <img alt="Admin" class="w-10 h-10 rounded-full bg-slate-200" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDt1HC18Mc-BF9C54WqnTC8qy5J8ImIhPgFWy6uBkhMvH0PR9z6m3L8DvW1kpKXSMi2AfBz5hXp2Qy3YAmh3B5e6zcT58JK2BfZWTY-jkyfcVuPBV3zjK4w87dkbgxv8iYJeAgWdQVEeKt7ROiNxs0QOcNsI143VLVt2H1tWWaLjARH90BL97iUnON0PvW74nJMup6282xri5baOvcigHNpvnDLn66k9OzgYaJBU95J4xjyZeQv38PWQkgFPabl4t7Yy1ZJ1AK7FQnG">
+      <div class="flex-1 overflow-hidden">
+        <p class="text-sm font-bold truncate">피우다 연구소장</p>
+        <p class="text-xs text-slate-500 truncate">master@piuda.kr</p>
+      </div>
+      <button class="text-slate-400 hover:text-red-500 transition-colors">
+        <span class="material-icons-outlined text-lg">logout</span>
+      </button>
+    </div>
+  </div>
+</aside>
+
+<!-- ===== MAIN ===== -->
+<main class="flex-1 ml-64 p-6 h-screen overflow-hidden flex flex-col">
+  <header class="flex items-center justify-between mb-6 shrink-0">
+    <div>
+      <h2 class="text-2xl font-bold text-slate-900 dark:text-white">스케줄 / 캘린더</h2>
+      <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">오늘의 테라피 세션을 확인하고 관리하세요.</p>
+    </div>
+    <div class="flex items-center gap-4">
+      <div class="relative group">
+        <span class="material-icons-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors">search</span>
+        <input class="pl-10 pr-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none w-64 transition-all text-sm" placeholder="아동 또는 치료사 검색">
+      </div>
+      <button class="bg-primary text-white px-5 py-2.5 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-primary/20 hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-sm">
+        <span class="material-icons-outlined">add</span>신규 세션 등록
+      </button>
+      <button class="relative p-2 text-slate-500 hover:bg-white dark:hover:bg-slate-800 rounded-xl transition-all">
+        <span class="material-icons-outlined">notifications</span>
+        <span class="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full ring-2 ring-background-light"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Calendar Container -->
+  <div class="flex-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[2rem] shadow-sm overflow-hidden flex flex-col">
+    <!-- Calendar Header -->
+    <div class="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-white dark:bg-slate-900 shrink-0">
+      <div class="flex items-center gap-4">
+        <h3 class="text-xl font-bold dark:text-white flex items-center gap-2">
+          <span class="material-icons-outlined text-primary">calendar_month</span>
+          2026년 02월
+        </h3>
+        <div class="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl">
+          <button class="p-1.5 hover:bg-white dark:hover:bg-slate-700 rounded-lg transition-all shadow-sm">
+            <span class="material-icons-outlined text-sm text-slate-600 dark:text-slate-400">chevron_left</span>
+          </button>
+          <button class="p-1.5 hover:bg-white dark:hover:bg-slate-700 rounded-lg transition-all shadow-sm">
+            <span class="material-icons-outlined text-sm text-slate-600 dark:text-slate-400">chevron_right</span>
+          </button>
+        </div>
+        <button class="text-xs font-bold text-slate-600 dark:text-slate-300 px-3 py-1.5 bg-slate-100 dark:bg-slate-800 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">오늘</button>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="flex items-center gap-3 text-xs">
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-primary"></span>ABA</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>언어</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-accent"></span>인지</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>감통</span>
+        </div>
+        <div class="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl">
+          <button class="px-3 py-1.5 text-xs font-bold bg-white dark:bg-slate-700 text-slate-900 dark:text-white rounded-lg shadow-sm">월</button>
+          <button class="px-3 py-1.5 text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 rounded-lg">주</button>
+          <button class="px-3 py-1.5 text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 rounded-lg">일</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day Headers -->
+    <div class="calendar-grid border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30 shrink-0">
+      <div class="py-3 text-center text-xs font-bold text-red-400">일</div>
+      <div class="py-3 text-center text-xs font-bold text-slate-500 dark:text-slate-400">월</div>
+      <div class="py-3 text-center text-xs font-bold text-slate-500 dark:text-slate-400">화</div>
+      <div class="py-3 text-center text-xs font-bold text-slate-500 dark:text-slate-400">수</div>
+      <div class="py-3 text-center text-xs font-bold text-slate-500 dark:text-slate-400">목</div>
+      <div class="py-3 text-center text-xs font-bold text-slate-500 dark:text-slate-400">금</div>
+      <div class="py-3 text-center text-xs font-bold text-slate-500 dark:text-slate-400">토</div>
+    </div>
+
+    <!-- Calendar Grid -->
+    <div class="calendar-grid flex-1 overflow-y-auto divide-x divide-y divide-slate-200 dark:divide-slate-800 bg-white dark:bg-slate-900 custom-scrollbar">
+      <!-- Previous month days -->
+      <div class="calendar-cell p-2 bg-slate-50/50 dark:bg-slate-900/40 opacity-50"><span class="text-slate-400 text-sm font-medium">27</span></div>
+      <div class="calendar-cell p-2 bg-slate-50/50 dark:bg-slate-900/40 opacity-50"><span class="text-slate-400 text-sm font-medium">28</span></div>
+      <div class="calendar-cell p-2 bg-slate-50/50 dark:bg-slate-900/40 opacity-50"><span class="text-slate-400 text-sm font-medium">29</span></div>
+      <div class="calendar-cell p-2 bg-slate-50/50 dark:bg-slate-900/40 opacity-50"><span class="text-slate-400 text-sm font-medium">30</span></div>
+      <div class="calendar-cell p-2 bg-slate-50/50 dark:bg-slate-900/40 opacity-50"><span class="text-slate-400 text-sm font-medium">31</span></div>
+
+      <!-- Feb 1-2 -->
+      <div class="calendar-cell p-2 hover:bg-slate-50 transition-colors"><span class="text-sm font-medium text-slate-700 dark:text-slate-300">1</span></div>
+      <div class="calendar-cell p-2 hover:bg-slate-50 transition-colors"><span class="text-sm font-medium text-slate-700 dark:text-slate-300">2</span></div>
+
+      <!-- Feb 3 (Sun) -->
+      <div class="calendar-cell p-2 bg-red-50/30 dark:bg-red-900/10"><span class="text-sm font-bold text-red-400">3</span></div>
+
+      <!-- Feb 4 with sessions -->
+      <div class="calendar-cell p-2 hover:bg-slate-50 transition-colors">
+        <span class="text-sm font-medium dark:text-slate-300">4</span>
+        <div class="mt-2 space-y-1">
+          <div class="bg-primary/10 border-l-2 border-primary text-[11px] p-1.5 rounded-r font-medium truncate cursor-pointer hover:bg-primary/20 transition-all">
+            <span class="font-bold text-primary">14:00</span> 김준우 (ABA)
+          </div>
+          <div class="bg-secondary/10 border-l-2 border-secondary text-[11px] p-1.5 rounded-r font-medium truncate cursor-pointer hover:bg-secondary/20 transition-all">
+            <span class="font-bold text-secondary">16:00</span> 이미소 (언어)
+          </div>
+        </div>
+      </div>
+
+      <!-- Feb 5 -->
+      <div class="calendar-cell p-2 hover:bg-slate-50 transition-colors">
+        <span class="text-sm font-medium dark:text-slate-300">5</span>
+        <div class="mt-2">
+          <div class="bg-accent/10 border-l-2 border-accent text-[11px] p-1.5 rounded-r font-medium truncate cursor-pointer hover:bg-accent/20 transition-all">
+            <span class="font-bold text-yellow-600">10:30</span> 박지성 (인지)
+          </div>
+        </div>
+      </div>
+
+      <!-- Feb 6 (Today - highlighted) -->
+      <div class="calendar-cell p-2 bg-primary/5 border border-primary/20 relative">
+        <div class="flex justify-between items-start">
+          <span class="inline-flex w-7 h-7 bg-primary text-white text-sm font-bold rounded-full items-center justify-center shadow-md shadow-primary/20">6</span>
+          <button class="text-primary hover:bg-primary/10 p-1 rounded-full transition-colors">
+            <span class="material-icons-outlined text-base">add</span>
+          </button>
+        </div>
+        <div class="mt-2 space-y-1">
+          <div class="bg-primary text-white text-[11px] p-1.5 rounded-lg font-bold truncate shadow-sm">
+            13:00 정우성 (ABA)
+          </div>
+          <div class="bg-emerald-400 text-white text-[11px] p-1.5 rounded-lg font-bold truncate shadow-sm">
+            15:30 최진아 (감통)
+          </div>
+        </div>
+      </div>
+
+      <!-- Feb 7 -->
+      <div class="calendar-cell p-2 hover:bg-slate-50 transition-colors"><span class="text-sm font-medium dark:text-slate-300">7</span></div>
+
+      <!-- Feb 8 -->
+      <div class="calendar-cell p-2 hover:bg-slate-50 transition-colors">
+        <span class="text-sm font-medium text-red-400 font-bold">8</span>
+      </div>
+
+      <!-- Feb 9 -->
+      <div class="calendar-cell p-2 hover:bg-slate-50 transition-colors">
+        <span class="text-sm font-medium dark:text-slate-300">9</span>
+        <div class="mt-2">
+          <div class="bg-secondary/10 border-l-2 border-secondary text-[11px] p-1.5 rounded-r font-medium truncate cursor-pointer hover:bg-secondary/20 transition-all">
+            <span class="font-bold text-secondary">11:00</span> 유재석 (언어)
+          </div>
+        </div>
+      </div>
+
+      <!-- Feb 10-14 -->
+      <div class="calendar-cell p-2 hover:bg-slate-50 transition-colors"><span class="text-sm font-medium dark:text-slate-300">10</span></div>
+      <div class="calendar-cell p-2 hover:bg-slate-50 transition-colors"><span class="text-sm font-medium dark:text-slate-300">11</span></div>
+      <div class="calendar-cell p-2 hover:bg-slate-50 transition-colors"><span class="text-sm font-medium dark:text-slate-300">12</span></div>
+
+      <!-- Feb 15 (Sun) -->
+      <div class="calendar-cell p-2 bg-red-50/30 dark:bg-red-900/10"><span class="text-sm font-bold text-red-400">15</span></div>
+
+      <!-- Feb 16-21 -->
+      <div class="calendar-cell p-2 hover:bg-slate-50 transition-colors">
+        <span class="text-sm font-medium dark:text-slate-300">13</span>
+        <div class="mt-2">
+          <div class="bg-slate-100 dark:bg-slate-800 text-slate-400 text-[11px] p-1.5 rounded-lg font-bold truncate line-through">
+            14:00 김준우 (취소)
+          </div>
+        </div>
+      </div>
+      <div class="calendar-cell p-2 hover:bg-slate-50 transition-colors"><span class="text-sm font-medium dark:text-slate-300">14</span></div>
+      <div class="calendar-cell p-2 hover:bg-slate-50 transition-colors"><span class="text-sm font-medium dark:text-slate-300">16</span></div>
+      <div class="calendar-cell p-2 hover:bg-slate-50 transition-colors"><span class="text-sm font-medium dark:text-slate-300">17</span></div>
+      <div class="calendar-cell p-2 hover:bg-slate-50 transition-colors"><span class="text-sm font-medium dark:text-slate-300">18</span></div>
+      <div class="calendar-cell p-2 hover:bg-slate-50 transition-colors"><span class="text-sm font-medium dark:text-slate-300">19</span></div>
+      <div class="calendar-cell p-2 hover:bg-slate-50 transition-colors"><span class="text-sm font-medium dark:text-slate-300">20</span></div>
+      <div class="calendar-cell p-2 hover:bg-slate-50 transition-colors"><span class="text-sm font-medium dark:text-slate-300">21</span></div>
+      <div class="calendar-cell p-2 bg-red-50/30 dark:bg-red-900/10"><span class="text-sm font-bold text-red-400">22</span></div>
+      <div class="calendar-cell p-2 hover:bg-slate-50 transition-colors"><span class="text-sm font-medium dark:text-slate-300">23</span></div>
+      <div class="calendar-cell p-2 hover:bg-slate-50 transition-colors"><span class="text-sm font-medium dark:text-slate-300">24</span></div>
+      <div class="calendar-cell p-2 hover:bg-slate-50 transition-colors"><span class="text-sm font-medium dark:text-slate-300">25</span></div>
+      <div class="calendar-cell p-2 hover:bg-slate-50 transition-colors"><span class="text-sm font-medium dark:text-slate-300">26</span></div>
+      <div class="calendar-cell p-2 hover:bg-slate-50 transition-colors"><span class="text-sm font-medium dark:text-slate-300">27</span></div>
+      <div class="calendar-cell p-2 hover:bg-slate-50 transition-colors"><span class="text-sm font-medium dark:text-slate-300">28</span></div>
+
+      <!-- Next month overflow -->
+      <div class="calendar-cell p-2 bg-slate-50/50 dark:bg-slate-900/40 opacity-50"><span class="text-slate-400 text-sm font-medium">1</span></div>
+      <div class="calendar-cell p-2 bg-slate-50/50 dark:bg-slate-900/40 opacity-50"><span class="text-slate-400 text-sm font-medium">2</span></div>
+      <div class="calendar-cell p-2 bg-slate-50/50 dark:bg-slate-900/40 opacity-50"><span class="text-slate-400 text-sm font-medium">3</span></div>
+      <div class="calendar-cell p-2 bg-slate-50/50 dark:bg-slate-900/40 opacity-50"><span class="text-slate-400 text-sm font-medium">4</span></div>
+      <div class="calendar-cell p-2 bg-slate-50/50 dark:bg-slate-900/40 opacity-50"><span class="text-slate-400 text-sm font-medium">5</span></div>
+      <div class="calendar-cell p-2 bg-slate-50/50 dark:bg-slate-900/40 opacity-50"><span class="text-slate-400 text-sm font-medium">6</span></div>
+      <div class="calendar-cell p-2 bg-slate-50/50 dark:bg-slate-900/40 opacity-50"><span class="text-slate-400 text-sm font-medium">7</span></div>
+    </div>
+  </div>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html class="light" lang="ko">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>피우다 ABA | 프로그램 관리</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+<script>
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          primary: "#FF8E99",
+          secondary: "#8FAADC",
+          accent: "#FFD54F",
+          "background-light": "#F8FAFC",
+          "background-dark": "#0F172A",
+        },
+        fontFamily: { display: ["Pretendard", "sans-serif"] },
+      },
+    },
+  };
+</script>
+<style>
+  body { font-family: 'Pretendard', sans-serif; }
+  .sidebar-link {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 16px; border-radius: 12px;
+    color: #64748b; transition: all 0.15s;
+    text-decoration: none; font-weight: 500;
+  }
+  .sidebar-link:hover { background: #f8fafc; color: #334155; }
+  .sidebar-link.active { background: #FF8E99; color: #fff !important; }
+  .dark .sidebar-link:hover { background: #1e293b; color: #cbd5e1; }
+  .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+</style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-100 min-h-screen flex">
+
+<!-- ===== SIDEBAR ===== -->
+<aside class="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col fixed h-full z-50">
+  <div class="p-6">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 bg-primary/10 flex items-center justify-center rounded-xl">
+        <span class="material-icons-outlined text-primary">local_florist</span>
+      </div>
+      <h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">피우다 <span class="text-primary text-sm font-medium">ABA</span></h1>
+    </div>
+  </div>
+  <nav class="flex-1 px-4 space-y-1 overflow-y-auto custom-scrollbar">
+    <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider px-2 py-4">메뉴</div>
+    <a class="sidebar-link" href="index.html"><span class="material-icons-outlined">dashboard</span><span>대시보드</span></a>
+    <a class="sidebar-link active" href="program.html"><span class="material-icons-outlined">assignment</span><span>프로그램 관리</span></a>
+    <a class="sidebar-link" href="members.html"><span class="material-icons-outlined">group</span><span>회원(아동) 관리</span></a>
+    <a class="sidebar-link" href="records.html"><span class="material-icons-outlined">description</span><span>치료 기록/차트</span></a>
+    <a class="sidebar-link" href="schedule.html"><span class="material-icons-outlined">calendar_today</span><span>스케줄/캘린더</span></a>
+    <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider px-2 py-4 mt-4">설정</div>
+    <a class="sidebar-link" href="#"><span class="material-icons-outlined">settings</span><span>시스템 설정</span></a>
+    <a class="sidebar-link" href="#"><span class="material-icons-outlined">help_outline</span><span>고객지원</span></a>
+  </nav>
+  <div class="p-4 border-t border-slate-200 dark:border-slate-800">
+    <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl flex items-center gap-3">
+      <img alt="Admin" class="w-10 h-10 rounded-full bg-slate-200" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDt1HC18Mc-BF9C54WqnTC8qy5J8ImIhPgFWy6uBkhMvH0PR9z6m3L8DvW1kpKXSMi2AfBz5hXp2Qy3YAmh3B5e6zcT58JK2BfZWTY-jkyfcVuPBV3zjK4w87dkbgxv8iYJeAgWdQVEeKt7ROiNxs0QOcNsI143VLVt2H1tWWaLjARH90BL97iUnON0PvW74nJMup6282xri5baOvcigHNpvnDLn66k9OzgYaJBU95J4xjyZeQv38PWQkgFPabl4t7Yy1ZJ1AK7FQnG">
+      <div class="flex-1 overflow-hidden">
+        <p class="text-sm font-bold truncate">피우다 연구소장</p>
+        <p class="text-xs text-slate-500 truncate">master@piuda.kr</p>
+      </div>
+      <button class="text-slate-400 hover:text-red-500 transition-colors">
+        <span class="material-icons-outlined text-lg">logout</span>
+      </button>
+    </div>
+  </div>
+</aside>
+
+<!-- ===== MAIN ===== -->
+<main class="flex-1 ml-64 p-8">
+  <header class="flex justify-between items-center mb-8">
+    <div>
+      <h2 class="text-2xl font-bold text-slate-900 dark:text-white">치료 프로그램 관리</h2>
+      <p class="text-slate-500 dark:text-slate-400 mt-1">연구소 내 운영 중인 모든 발달 치료 프로그램을 관리합니다.</p>
+    </div>
+    <div class="flex items-center gap-4">
+      <div class="relative group">
+        <span class="material-icons-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors">search</span>
+        <input class="pl-10 pr-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none w-64 transition-all" placeholder="프로그램 검색..." type="text">
+      </div>
+      <button class="relative p-2 text-slate-500 hover:bg-white dark:hover:bg-slate-800 rounded-xl transition-all">
+        <span class="material-icons-outlined">notifications</span>
+        <span class="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full ring-2 ring-background-light"></span>
+      </button>
+      <button class="bg-primary text-white px-5 py-2.5 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-primary/20 hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all">
+        <span class="material-icons-outlined">add</span>프로그램 등록
+      </button>
+    </div>
+  </header>
+
+  <!-- KPI -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm">
+      <div class="flex justify-between items-start mb-4">
+        <span class="p-2 bg-primary/10 text-primary rounded-xl material-icons-outlined">school</span>
+        <span class="text-[10px] font-bold text-slate-400 uppercase">Active</span>
+      </div>
+      <p class="text-slate-500 font-medium">전체 커리큘럼</p>
+      <h3 class="text-3xl font-bold mt-1 dark:text-white">42개</h3>
+    </div>
+    <div class="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm">
+      <div class="flex justify-between items-start mb-4">
+        <span class="p-2 bg-secondary/10 text-secondary rounded-xl material-icons-outlined">face</span>
+        <span class="text-[10px] font-bold text-slate-400 uppercase">Total</span>
+      </div>
+      <p class="text-slate-500 font-medium">등록 아동 수</p>
+      <h3 class="text-3xl font-bold mt-1 dark:text-white">156명</h3>
+    </div>
+    <div class="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm">
+      <div class="flex justify-between items-start mb-4">
+        <span class="p-2 bg-accent/10 text-yellow-600 rounded-xl material-icons-outlined">pending_actions</span>
+        <span class="text-[10px] font-bold text-slate-400 uppercase">Pending</span>
+      </div>
+      <p class="text-slate-500 font-medium">대기 상담</p>
+      <h3 class="text-3xl font-bold mt-1 dark:text-white">18건</h3>
+    </div>
+    <div class="bg-primary p-6 rounded-3xl text-white shadow-xl shadow-primary/20 relative overflow-hidden">
+      <div class="relative z-10">
+        <div class="flex justify-between items-start mb-4">
+          <span class="p-2 bg-white/20 rounded-xl material-icons-outlined">trending_up</span>
+          <span class="text-[10px] font-bold text-white/60 uppercase">Trend</span>
+        </div>
+        <p class="text-white/80 font-medium">전월 대비 성장</p>
+        <h3 class="text-3xl font-bold mt-1">+12.4%</h3>
+      </div>
+      <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-white/10 rounded-full blur-2xl"></div>
+    </div>
+  </div>
+
+  <!-- Program Cards -->
+  <div class="flex justify-between items-center mb-6">
+    <h3 class="text-lg font-bold dark:text-white">카테고리별 프로그램</h3>
+    <div class="flex gap-2">
+      <button class="p-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl hover:bg-slate-50 transition-colors">
+        <span class="material-icons-outlined text-slate-500">grid_view</span>
+      </button>
+      <button class="p-2 hover:bg-white dark:hover:bg-slate-800 rounded-xl transition-colors text-slate-400">
+        <span class="material-icons-outlined">view_list</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+    <!-- Program Card Template -->
+    <div class="group bg-white dark:bg-slate-900 rounded-[2rem] border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl transition-all cursor-pointer">
+      <div class="p-6">
+        <div class="w-14 h-14 rounded-2xl bg-primary flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform">
+          <span class="material-icons-outlined text-3xl">psychology</span>
+        </div>
+        <h4 class="text-lg font-bold mb-2 dark:text-white">무발화 치료</h4>
+        <p class="text-sm text-slate-500 line-clamp-2 mb-6">언어 이전 단계의 아동을 위한 의사소통 기반 조성 프로그램</p>
+        <div class="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
+          <div class="flex -space-x-2">
+            <img alt="s" class="w-8 h-8 rounded-full border-2 border-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzbH_QekBP2hSyADywEGOedHIP9kM8W50qZie1f2WaVpZipm0zWuDupPoms8jqh3CGQAgj9pC1525kMNNAv0voswsy9H8UoFz87hAv-iBHjiY-Q7q5vUwbV-CtJfi5flykY9Xgyb6ha69Z2_eHEY2BmmkmFPgIRbt_15mLgdOlfu3KTdffTocDQYgG_mOent_VaCwSbuO_nGrzL53NOr2TFoURvpPFRS2A31Dlt9P3JwtKw-BsURvg0_N6eDMQsuCzAR5lmMSrnjaO">
+            <div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-[10px] font-bold text-slate-600">+12</div>
+          </div>
+          <span class="text-xs font-semibold px-2.5 py-1 bg-primary/10 text-primary rounded-lg">8개 세부과정</span>
+        </div>
+      </div>
+    </div>
+    <div class="group bg-white dark:bg-slate-900 rounded-[2rem] border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl transition-all cursor-pointer">
+      <div class="p-6">
+        <div class="w-14 h-14 rounded-2xl bg-secondary flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform">
+          <span class="material-icons-outlined text-3xl">extension</span>
+        </div>
+        <h4 class="text-lg font-bold mb-2 dark:text-white">ABA 인지 치료</h4>
+        <p class="text-sm text-slate-500 line-clamp-2 mb-6">응용행동분석 원리를 이용한 체계적인 개별 인지 학습</p>
+        <div class="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
+          <div class="flex -space-x-2">
+            <img alt="s" class="w-8 h-8 rounded-full border-2 border-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxKyyoyGqFtthK3BJ0sKoVU11rje6MXy7J42iUP5IWw78gxZJbM7wDt6CXRwm_cUi8rG1h0CYLCetYQA8sE-9IHPotWD3mYDfzyRg995k81_j3R0Zo0QXD5nMnyAJR7FoOWkzLEYiNMLR-OKvkBGAPLC9zrnlZrCt5OCnCErMOe6IJNopohdEJzugepzNrOjjQ1LaeW0jY2EK_as9lSXFWY2oDsyOJX5QKUzOvsfv-mLPfqVZ5zxkwc2P-jDfWa8RWLB--Ij_EeqYI">
+            <div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-[10px] font-bold text-slate-600">+24</div>
+          </div>
+          <span class="text-xs font-semibold px-2.5 py-1 bg-secondary/10 text-secondary rounded-lg">15개 세부과정</span>
+        </div>
+      </div>
+    </div>
+    <div class="group bg-white dark:bg-slate-900 rounded-[2rem] border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl transition-all cursor-pointer">
+      <div class="p-6">
+        <div class="w-14 h-14 rounded-2xl bg-accent flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform">
+          <span class="material-icons-outlined text-3xl">record_voice_over</span>
+        </div>
+        <h4 class="text-lg font-bold mb-2 dark:text-white">언어 치료</h4>
+        <p class="text-sm text-slate-500 line-clamp-2 mb-6">조음, 유창성, 수용 및 표현 언어 향상을 위한 전문 프로그램</p>
+        <div class="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
+          <div class="flex -space-x-2">
+            <div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-[10px] font-bold text-slate-600">+31</div>
+          </div>
+          <span class="text-xs font-semibold px-2.5 py-1 bg-accent/10 text-yellow-700 rounded-lg">12개 세부과정</span>
+        </div>
+      </div>
+    </div>
+    <div class="group bg-white dark:bg-slate-900 rounded-[2rem] border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl transition-all cursor-pointer">
+      <div class="p-6">
+        <div class="w-14 h-14 rounded-2xl bg-orange-400 flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform">
+          <span class="material-icons-outlined text-3xl">accessibility_new</span>
+        </div>
+        <h4 class="text-lg font-bold mb-2 dark:text-white">감각통합 치료</h4>
+        <p class="text-sm text-slate-500 line-clamp-2 mb-6">감각 조절 및 운동 기획 능력 향상을 위한 신체 기반 활동</p>
+        <div class="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
+          <div class="flex -space-x-2">
+            <div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-[10px] font-bold text-slate-600">+18</div>
+          </div>
+          <span class="text-xs font-semibold px-2.5 py-1 bg-orange-100 text-orange-600 rounded-lg">10개 세부과정</span>
+        </div>
+      </div>
+    </div>
+    <div class="group bg-white dark:bg-slate-900 rounded-[2rem] border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl transition-all cursor-pointer">
+      <div class="p-6">
+        <div class="w-14 h-14 rounded-2xl bg-green-500 flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform">
+          <span class="material-icons-outlined text-3xl">sports_soccer</span>
+        </div>
+        <h4 class="text-lg font-bold mb-2 dark:text-white">특수 체육</h4>
+        <p class="text-sm text-slate-500 line-clamp-2 mb-6">대근육 발달 및 협응력을 높이는 역동적인 신체 발달 프로그램</p>
+        <div class="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
+          <div class="flex -space-x-2">
+            <div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-[10px] font-bold text-slate-600">+8</div>
+          </div>
+          <span class="text-xs font-semibold px-2.5 py-1 bg-green-100 text-green-600 rounded-lg">6개 세부과정</span>
+        </div>
+      </div>
+    </div>
+    <div class="group bg-white dark:bg-slate-900 rounded-[2rem] border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl transition-all cursor-pointer">
+      <div class="p-6">
+        <div class="w-14 h-14 rounded-2xl bg-purple-500 flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform">
+          <span class="material-icons-outlined text-3xl">diversity_3</span>
+        </div>
+        <h4 class="text-lg font-bold mb-2 dark:text-white">사회성 발달</h4>
+        <p class="text-sm text-slate-500 line-clamp-2 mb-6">또래 관계 형성 및 사회적 기술 습득을 위한 그룹 프로그램</p>
+        <div class="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
+          <div class="flex -space-x-2">
+            <div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-[10px] font-bold text-slate-600">+15</div>
+          </div>
+          <span class="text-xs font-semibold px-2.5 py-1 bg-purple-100 text-purple-600 rounded-lg">9개 세부과정</span>
+        </div>
+      </div>
+    </div>
+    <div class="group bg-white dark:bg-slate-900 rounded-[2rem] border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl transition-all cursor-pointer">
+      <div class="p-6">
+        <div class="w-14 h-14 rounded-2xl bg-blue-500 flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform">
+          <span class="material-icons-outlined text-3xl">menu_book</span>
+        </div>
+        <h4 class="text-lg font-bold mb-2 dark:text-white">인지 학습</h4>
+        <p class="text-sm text-slate-500 line-clamp-2 mb-6">기초 학습 능력 및 논리적 사고력 증진을 위한 교육적 접근</p>
+        <div class="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
+          <div class="flex -space-x-2">
+            <div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-[10px] font-bold text-slate-600">+11</div>
+          </div>
+          <span class="text-xs font-semibold px-2.5 py-1 bg-blue-100 text-blue-600 rounded-lg">7개 세부과정</span>
+        </div>
+      </div>
+    </div>
+    <div class="border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-[2rem] flex flex-col items-center justify-center p-6 text-slate-400 hover:text-primary hover:border-primary/50 transition-all cursor-pointer group min-h-[200px]">
+      <div class="w-12 h-12 rounded-full border-2 border-dashed border-slate-200 dark:border-slate-800 flex items-center justify-center mb-4 group-hover:bg-primary/5 group-hover:border-primary">
+        <span class="material-icons-outlined">add</span>
+      </div>
+      <span class="font-medium">새 카테고리 추가</span>
+    </div>
+  </div>
+
+  <!-- Bottom Section -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="lg:col-span-2 bg-white dark:bg-slate-900 p-8 rounded-[2rem] border border-slate-200 dark:border-slate-800">
+      <div class="flex items-center justify-between mb-6">
+        <h3 class="text-lg font-bold dark:text-white">전문가 팀 관리</h3>
+        <button class="text-primary text-sm font-semibold hover:underline">모두 보기</button>
+      </div>
+      <div class="space-y-4">
+        <div class="flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+          <div class="flex items-center gap-4">
+            <img alt="teacher" class="w-10 h-10 rounded-full bg-slate-100" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcZQeK5JqJKc81HTVLBMAruVismAkT4mTp1tWGZrJqivVWEGtsZuh-XPHYn8AXRwM0B9yesuaPmvcVD_0IfuyLmHB3RKmnGhCQbWaTHs4JX9VUBEFUiBjD1C1QWxoFznOTmbRU_wwscSnMlzoU-DCfb1PYd6sLUWVOh_AfSIf17zcBSjmNkMoDLvm_LwL1iEOMCjWQ79lzVP2n4OZAQiexSBIftiuxItO_6FOezecY_lMcQUwrhGNKX0mLtzgDr7KjACRfAJdbBrFY">
+            <div>
+              <p class="font-bold dark:text-white">이서연 선생님</p>
+              <p class="text-xs text-slate-500">언어재활사 1급 | 무발화·언어 전담</p>
+            </div>
+          </div>
+          <span class="text-xs bg-primary/10 text-primary px-2 py-1 rounded-lg font-semibold">진행중 8건</span>
+        </div>
+        <div class="flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+          <div class="flex items-center gap-4">
+            <img alt="teacher" class="w-10 h-10 rounded-full bg-slate-100" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCg69LIZSnsl4bEmo-0sYsQCo8hrF2bCQYkUjLB2q-cfuK3FL3nh-HLJTwVaQaYbtjNFpV8TmII9UDKlXrmrhqdn9IGKyMKFzKIjxjj0T45hq7gnMTXNY_SmMzqQ8Y7jXs3gKCJQePsjG5XasQovbJ90F35A0KF0d-kAKMTg1QH09c6IiXOd8YTXjTD7Hhd1VC_pLnqI8z3wOl1dT_OwLt2J2eomPSME6tfqHRYO0HMrhWy26A-QWRvDcSUotP_XKselaUv_-Smk0Hk">
+            <div>
+              <p class="font-bold dark:text-white">박준호 선생님</p>
+              <p class="text-xs text-slate-500">BCBA | ABA 인지 전담</p>
+            </div>
+          </div>
+          <span class="text-xs bg-secondary/10 text-secondary px-2 py-1 rounded-lg font-semibold">진행중 12건</span>
+        </div>
+        <div class="flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+          <div class="flex items-center gap-4">
+            <img alt="teacher" class="w-10 h-10 rounded-full bg-slate-100" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBD3cP5WwjVccoSioR0OKfEfGZ-OIRQ9W0oIlLRX6Wv5NZ-c3gmpIgOnTMe3qbDSXnVD_ixRtptqPPJP_YGSse5UizUJwH-coNGOOPRqKmfns_NHQz700T8pwlLOWSvDmQYZXZMv1_AgJQDhxWJO1L8qJT8m0W77gTZD26BmZw2aOoSc68sh9Rbz5qiA75L0VGlQUrKVgRric8OCbRAsVgUckrFTNDJ6zSexS7M5ywN_h6njaYGINTPa5QCSmL77eYzwnKv7LueCf9F">
+            <div>
+              <p class="font-bold dark:text-white">최지민 선생님</p>
+              <p class="text-xs text-slate-500">감각통합치료사 | 감통·체육 전담</p>
+            </div>
+          </div>
+          <span class="text-xs bg-accent/10 text-yellow-700 px-2 py-1 rounded-lg font-semibold">진행중 10건</span>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white dark:bg-slate-900 p-8 rounded-[2rem] border border-slate-200 dark:border-slate-800">
+      <h3 class="text-lg font-bold dark:text-white mb-6">최근 업데이트</h3>
+      <div class="space-y-6">
+        <div class="flex gap-4">
+          <div class="w-2 h-2 rounded-full bg-primary mt-1.5 shrink-0"></div>
+          <div>
+            <p class="text-sm font-semibold dark:text-white">새로운 커리큘럼 등록</p>
+            <p class="text-xs text-slate-500 mt-0.5">[ABA] 사회성 기초 단계 - 이서연 선생님</p>
+            <p class="text-[10px] text-slate-400 mt-1">15분 전</p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div class="w-2 h-2 rounded-full bg-secondary mt-1.5 shrink-0"></div>
+          <div>
+            <p class="text-sm font-semibold dark:text-white">상담 일정 변경</p>
+            <p class="text-xs text-slate-500 mt-0.5">민수 아동 (언어치료) - 내일 14:00</p>
+            <p class="text-[10px] text-slate-400 mt-1">2시간 전</p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div class="w-2 h-2 rounded-full bg-accent mt-1.5 shrink-0"></div>
+          <div>
+            <p class="text-sm font-semibold dark:text-white">월간 리포트 생성 완료</p>
+            <p class="text-xs text-slate-500 mt-0.5">2024년 5월 발달 통계 분석</p>
+            <p class="text-[10px] text-slate-400 mt-1">5시간 전</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+</body>
+</html>
