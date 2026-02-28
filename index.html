@@ -37,13 +37,34 @@
   .dark .sidebar-link:hover { background: #1e293b; color: #cbd5e1; }
   .custom-scrollbar::-webkit-scrollbar { width: 4px; }
   .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+
+  /* ===== BOTTOM TAB RESPONSIVE ===== */
+  @media (max-width: 1023px) {
+    #desktop-sidebar { display: none !important; }
+  }
+  .safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
+
 </style>
 </head>
-<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-100 min-h-screen flex">
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-100 min-h-screen">
+<!-- ===== MOBILE TOPBAR ===== -->
+<div class="lg:hidden fixed top-0 left-0 right-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 flex items-center justify-between px-4 h-14">
+  <div class="flex items-center gap-2">
+    <div class="w-7 h-7 bg-primary/10 flex items-center justify-center rounded-lg">
+      <span class="material-icons-outlined text-primary" style="font-size:16px">local_florist</span>
+    </div>
+    <span class="font-bold text-slate-900 dark:text-white text-sm">피우다 <span class="text-primary">ABA</span></span>
+  </div>
+  <h1 class="text-sm font-bold text-slate-700 dark:text-slate-300">연구소 대시보드</h1>
+  <button class="relative p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all">
+    <span class="material-icons-outlined" style="font-size:20px">notifications</span>
+    <span class="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full"></span>
+  </button>
+</div>
 
 <!-- ===== SIDEBAR ===== -->
-<aside class="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col fixed h-full z-50">
-  <div class="p-6">
+<aside id="desktop-sidebar" class="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col fixed h-full z-50 lg:translate-x-0">
+  <div class="p-6 flex items-center justify-between">
     <div class="flex items-center gap-3">
       <div class="w-10 h-10 bg-primary/10 flex items-center justify-center rounded-xl">
         <span class="material-icons-outlined text-primary">local_florist</span>
@@ -77,16 +98,16 @@
 </aside>
 
 <!-- ===== MAIN ===== -->
-<main class="flex-1 ml-64 p-8">
-  <header class="flex justify-between items-center mb-8">
+<main class="lg:ml-64 pt-14 lg:pt-0 p-4 lg:p-8 pb-20 lg:pb-0">
+  <header class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6 lg:mb-8">
     <div>
       <h2 class="text-2xl font-bold text-slate-900 dark:text-white">연구소 대시보드</h2>
       <p class="text-slate-500 dark:text-slate-400 mt-1">오늘의 연구소 현황을 한눈에 확인하세요.</p>
     </div>
-    <div class="flex items-center gap-4">
+    <div class="flex items-center gap-2 lg:gap-4 flex-wrap">
       <div class="relative group">
         <span class="material-icons-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors">search</span>
-        <input class="pl-10 pr-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none w-64 transition-all" placeholder="학생명 또는 치료사 검색..." type="text">
+        <input class="pl-10 pr-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none w-full sm:w-64 transition-all" placeholder="학생명 또는 치료사 검색..." type="text">
       </div>
       <button class="relative p-2 text-slate-500 hover:bg-white dark:hover:bg-slate-800 rounded-xl transition-all">
         <span class="material-icons-outlined">notifications</span>
@@ -99,7 +120,7 @@
   </header>
 
   <!-- KPI Cards -->
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-6 mb-6 lg:mb-8">
     <div class="bg-primary p-6 rounded-3xl text-white shadow-xl shadow-primary/20 relative overflow-hidden">
       <div class="relative z-10">
         <div class="flex justify-between items-start mb-4">
@@ -141,9 +162,9 @@
   </div>
 
   <!-- Charts Row -->
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8 mb-6 lg:mb-8">
     <div class="lg:col-span-2 bg-white dark:bg-slate-900 p-8 rounded-[2rem] border border-slate-200 dark:border-slate-800">
-      <div class="flex justify-between items-center mb-8">
+      <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6 lg:mb-8">
         <div>
           <h4 class="text-lg font-bold dark:text-white">영역별 발달 추이 (평균)</h4>
           <p class="text-sm text-slate-500">최근 6개월 치료 성과 데이터</p>
@@ -209,7 +230,7 @@
   </div>
 
   <!-- Bottom Row -->
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8">
     <div class="bg-white dark:bg-slate-900 p-8 rounded-[2rem] border border-slate-200 dark:border-slate-800">
       <div class="flex justify-between items-center mb-6">
         <h4 class="text-lg font-bold dark:text-white">당직 치료사 현황</h4>
@@ -297,5 +318,39 @@
   </div>
 </main>
 
+
+<!-- ===== BOTTOM TAB BAR (mobile only) ===== -->
+<nav class="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 flex items-stretch safe-bottom" style="padding-bottom: env(safe-area-inset-bottom)">
+    <a href="index.html" class="flex flex-col items-center gap-0.5 py-2 px-3 flex-1 relative group">
+      
+      <span class="material-icons-outlined text-xl transition-all text-primary group-hover:text-primary">dashboard</span>
+      <span class="text-[10px] font-semibold transition-all text-primary group-hover:text-primary">대시보드</span>
+      <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-0.5 bg-primary rounded-full"></span>
+    </a>
+    <a href="program.html" class="flex flex-col items-center gap-0.5 py-2 px-3 flex-1 relative group">
+      
+      <span class="material-icons-outlined text-xl transition-all text-slate-400 dark:text-slate-500 group-hover:text-primary">assignment</span>
+      <span class="text-[10px] font-semibold transition-all text-slate-400 dark:text-slate-500 group-hover:text-primary">프로그램</span>
+      
+    </a>
+    <a href="members.html" class="flex flex-col items-center gap-0.5 py-2 px-3 flex-1 relative group">
+      
+      <span class="material-icons-outlined text-xl transition-all text-slate-400 dark:text-slate-500 group-hover:text-primary">group</span>
+      <span class="text-[10px] font-semibold transition-all text-slate-400 dark:text-slate-500 group-hover:text-primary">회원관리</span>
+      
+    </a>
+    <a href="records.html" class="flex flex-col items-center gap-0.5 py-2 px-3 flex-1 relative group">
+      <span class="absolute -top-0.5 right-3 w-1.5 h-1.5 bg-primary rounded-full"></span>
+      <span class="material-icons-outlined text-xl transition-all text-slate-400 dark:text-slate-500 group-hover:text-primary">description</span>
+      <span class="text-[10px] font-semibold transition-all text-slate-400 dark:text-slate-500 group-hover:text-primary">기록</span>
+      
+    </a>
+    <a href="schedule.html" class="flex flex-col items-center gap-0.5 py-2 px-3 flex-1 relative group">
+      
+      <span class="material-icons-outlined text-xl transition-all text-slate-400 dark:text-slate-500 group-hover:text-primary">calendar_today</span>
+      <span class="text-[10px] font-semibold transition-all text-slate-400 dark:text-slate-500 group-hover:text-primary">스케줄</span>
+      
+    </a>
+</nav>
 </body>
 </html>

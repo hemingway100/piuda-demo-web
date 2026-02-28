@@ -39,13 +39,39 @@
   .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
   .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); }
   .calendar-cell { min-height: 130px; }
+  @media (max-width: 767px) {
+    .calendar-cell { min-height: 60px; }
+    .calendar-cell .session-card { display: none; }
+    .calendar-cell .session-dot { display: block !important; }
+  }
+
+  /* ===== BOTTOM TAB RESPONSIVE ===== */
+  @media (max-width: 1023px) {
+    #desktop-sidebar { display: none !important; }
+  }
+  .safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
+
 </style>
 </head>
-<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-100 min-h-screen flex overflow-hidden">
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-100 min-h-screen overflow-hidden">
+<!-- ===== MOBILE TOPBAR ===== -->
+<div class="lg:hidden fixed top-0 left-0 right-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 flex items-center justify-between px-4 h-14">
+  <div class="flex items-center gap-2">
+    <div class="w-7 h-7 bg-primary/10 flex items-center justify-center rounded-lg">
+      <span class="material-icons-outlined text-primary" style="font-size:16px">local_florist</span>
+    </div>
+    <span class="font-bold text-slate-900 dark:text-white text-sm">피우다 <span class="text-primary">ABA</span></span>
+  </div>
+  <h1 class="text-sm font-bold text-slate-700 dark:text-slate-300">스케줄/캘린더</h1>
+  <button class="relative p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all">
+    <span class="material-icons-outlined" style="font-size:20px">notifications</span>
+    <span class="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full"></span>
+  </button>
+</div>
 
 <!-- ===== SIDEBAR ===== -->
-<aside class="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col fixed h-full z-50">
-  <div class="p-6">
+<aside id="desktop-sidebar" class="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col fixed h-full z-50 lg:translate-x-0">
+  <div class="p-6 flex items-center justify-between">
     <div class="flex items-center gap-3">
       <div class="w-10 h-10 bg-primary/10 flex items-center justify-center rounded-xl">
         <span class="material-icons-outlined text-primary">local_florist</span>
@@ -79,13 +105,13 @@
 </aside>
 
 <!-- ===== MAIN ===== -->
-<main class="flex-1 ml-64 p-6 h-screen overflow-hidden flex flex-col">
+<main class="lg:ml-64 pt-14 lg:pt-0 p-4 lg:p-6 h-screen overflow-hidden flex flex-col pb-20 lg:pb-0">
   <header class="flex items-center justify-between mb-6 shrink-0">
     <div>
       <h2 class="text-2xl font-bold text-slate-900 dark:text-white">스케줄 / 캘린더</h2>
       <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">오늘의 테라피 세션을 확인하고 관리하세요.</p>
     </div>
-    <div class="flex items-center gap-4">
+    <div class="flex items-center gap-2 lg:gap-4 flex-wrap">
       <div class="relative group">
         <span class="material-icons-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors">search</span>
         <input class="pl-10 pr-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none w-64 transition-all text-sm" placeholder="아동 또는 치료사 검색">
@@ -264,5 +290,39 @@
   </div>
 </main>
 
+
+<!-- ===== BOTTOM TAB BAR (mobile only) ===== -->
+<nav class="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 flex items-stretch safe-bottom" style="padding-bottom: env(safe-area-inset-bottom)">
+    <a href="index.html" class="flex flex-col items-center gap-0.5 py-2 px-3 flex-1 relative group">
+      
+      <span class="material-icons-outlined text-xl transition-all text-slate-400 dark:text-slate-500 group-hover:text-primary">dashboard</span>
+      <span class="text-[10px] font-semibold transition-all text-slate-400 dark:text-slate-500 group-hover:text-primary">대시보드</span>
+      
+    </a>
+    <a href="program.html" class="flex flex-col items-center gap-0.5 py-2 px-3 flex-1 relative group">
+      
+      <span class="material-icons-outlined text-xl transition-all text-slate-400 dark:text-slate-500 group-hover:text-primary">assignment</span>
+      <span class="text-[10px] font-semibold transition-all text-slate-400 dark:text-slate-500 group-hover:text-primary">프로그램</span>
+      
+    </a>
+    <a href="members.html" class="flex flex-col items-center gap-0.5 py-2 px-3 flex-1 relative group">
+      
+      <span class="material-icons-outlined text-xl transition-all text-slate-400 dark:text-slate-500 group-hover:text-primary">group</span>
+      <span class="text-[10px] font-semibold transition-all text-slate-400 dark:text-slate-500 group-hover:text-primary">회원관리</span>
+      
+    </a>
+    <a href="records.html" class="flex flex-col items-center gap-0.5 py-2 px-3 flex-1 relative group">
+      <span class="absolute -top-0.5 right-3 w-1.5 h-1.5 bg-primary rounded-full"></span>
+      <span class="material-icons-outlined text-xl transition-all text-slate-400 dark:text-slate-500 group-hover:text-primary">description</span>
+      <span class="text-[10px] font-semibold transition-all text-slate-400 dark:text-slate-500 group-hover:text-primary">기록</span>
+      
+    </a>
+    <a href="schedule.html" class="flex flex-col items-center gap-0.5 py-2 px-3 flex-1 relative group">
+      
+      <span class="material-icons-outlined text-xl transition-all text-primary group-hover:text-primary">calendar_today</span>
+      <span class="text-[10px] font-semibold transition-all text-primary group-hover:text-primary">스케줄</span>
+      <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-0.5 bg-primary rounded-full"></span>
+    </a>
+</nav>
 </body>
 </html>
